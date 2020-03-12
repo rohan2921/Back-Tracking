@@ -1,0 +1,68 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int isSafe(int x,int y,int arr[10][10],int ele){
+    if(arr[x][y]!=0) return 0;
+    for(int i=x;i<9;i++) if(arr[i][y]==ele) return 0;
+    for(int i=y;i<9;i++) if(arr[x][i]==ele) return 0;
+    for(int i=x;i>=0;i--) if(arr[i][y]==ele) return 0;
+    for(int i=y;i>=0;i--) if(arr[x][i]==ele) return 0;
+    int x1,y1,x2,y2;
+    x1=(x/3)*3;
+    x2=x1+3;
+    y1=(y/3)*3;
+    y2=y1+3;
+    for(int i=x1;i<x2;i++){
+        for(int j=y1;j<y2;j++) if(arr[i][j]==ele) return 0;
+    }
+    return 1;
+}
+void printSolution(int arr[10][10]){
+    for(int i=0;i<9;i++){
+        for(int j=0;j<9;j++){
+            cout<<arr[i][j]<<" ";
+        }
+        //cout<<endl;
+    }
+}
+int sudoku(int x,int y,int arr[10][10]){
+    //cout<<x;
+    if(x==9) {
+        printSolution(arr);
+        return 1;
+        
+    }
+        for(int i=y;i<9;i++){
+            if(arr[x][i]==0){
+            for(int j=1;j<10;j++){
+                
+                 if(isSafe(x,i,arr,j)){
+                    arr[x][i]=j;
+                    if((i<8)? sudoku(x,i+1,arr):sudoku(x+1,0,arr)){
+                        return 1;
+                    }else{
+                        arr[x][i]=0;
+                    }
+                }
+            }
+            return 0;
+        }
+        }int c=0;
+        for(int i=0;i<9;i++) if(arr[x][i]==0){ c=1;break;}
+        if(c==0) return sudoku(x+1,0,arr);
+        return 0;
+    
+}
+int main() {
+	int t;
+	int arr[10][10];
+	cin>>t;
+	while(t--){
+	    for(int i=0;i<9;i++){
+	        for(int j=0;j<9;j++) cin>>arr[i][j];
+	    }
+	    int x=sudoku(0,0,arr);
+	    cout<<endl;
+	}
+	return 0;
+}
