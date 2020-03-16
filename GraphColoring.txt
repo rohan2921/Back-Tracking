@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+int isSafe(int i,int color,int arr[51][51],int n,int l[51]){
+    for(int j=1;j<=n;j++){
+        if(arr[i][j]==0){
+            if(l[j]==color) return 0;
+        }
+    }
+    return 1;
+}
+int colorGraph(int i,int arr[51][51],int l[51],int n,int k){
+    if(i>n) return 1;
+    for(int j=1;j<=k;j++){
+        if(isSafe(i,j,arr,n,l)){
+            l[i]=j;
+            if(colorGraph(i+1,arr,l,n,k)){
+                return 1;
+            }else l[i]=0;
+        }
+    }
+    return 0;
+}
+int main() {
+	    int t;
+	    cin>>t;
+	    while(t--){
+	        int n,m,e;
+	        cin>>n>>m>>e;
+	        int l[51];
+	        for(int i=0;i<=50;i++) l[i]=0; 
+	        int a[51][51];
+	        for(int i=0;i<=50;i++){
+	            for(int j=0;j<=50;j++) a[i][j]=-1; 
+	        }
+	        for(int i=1;i<=e;i++){
+	            int u,v;
+	            cin>>u>>v;
+	            a[u][v]=0;
+	            a[v][u]=0;
+	        }
+	        cout<<colorGraph(1,a,l,n,m)<<endl;
+	        
+	    }
+	return 0;
+}
