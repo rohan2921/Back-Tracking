@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+
+
+int isHamilton(int i,int arr[51][51],int l[51],int n,int visited[51]){
+    int k;
+   for(k=1;k<=n;k++) if(visited[k]==0) break;
+   if(k>n) return 1;
+    for(int j=1;j<=n;j++){
+        if(arr[i][j]!=0&&visited[j]!=1){
+                
+                visited[j]=1;
+                if(isHamilton(j,arr,l,n,visited)){
+                    return 1;
+                }
+                else{  visited[j]=0;}
+            }
+        }
+        
+    
+    return 0;
+}
+int main() {
+	    int t;
+	    cin>>t;
+	    while(t--){
+	        int n,e;
+	        cin>>n>>e;
+	        int l[51];
+	        int visit[51];
+	        for(int i=0;i<=50;i++){ l[i]=0;visit[i]=0;} 
+	        int a[51][51];
+	        for(int i=0;i<=50;i++){
+	            for(int j=0;j<=50;j++) a[i][j]=0; 
+	        }
+	        for(int i=1;i<=e;i++){
+	            int u,v;
+	            cin>>u>>v;
+	            a[u][v]=1;
+	            a[v][u]=1;
+	        }
+	        int x;
+	        for(int k=1;k<=n;k++){
+	             x=isHamilton(k,a,l,n,visit);
+	             for(int j=1;j<=n;j++) visit[j]=0;
+	            if(x==1) break;
+	        }
+	        cout<<x<<endl;
+	    }
+	return 0;
+}
